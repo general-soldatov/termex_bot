@@ -1,14 +1,9 @@
-from os import getenv
-from dotenv import load_dotenv
 from base.list_users import ListUsers
 
-load_dotenv()
-ENDPOINT = getenv('ENDPOINT')
-
 def main():
-    users = ListUsers(ENDPOINT)
-    series_table = users.create_table()
-    print("Table status:", series_table.table_status)
+    users = ListUsers()
+    users.put_item(user_id=23343, name='ddss', group='f-44', date='2024-23')
+    print("Success")
 
 
 if __name__ == '__main__':
