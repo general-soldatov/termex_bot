@@ -78,6 +78,18 @@ class UserVar:
         table = self.dynamodb.Table(self.table)
         return table.scan()['Items']
 
+    def delete_note(self, user_id):
+        table = self.dynamodb.Table(self.table)
+        try:
+            response = table.delete_item(
+                Key = {'user_id': user_id},
+                )
+            return response
+
+        except Exception as e:
+            print('Error', e)
+
+
     def delete_table(self):
         table = self.dynamodb.Table(self.table)
         table.delete()
