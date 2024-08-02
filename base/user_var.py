@@ -44,10 +44,15 @@ class UserVar:
         )
         return table
 
-    def put_item(self, user_id, name, group, var, var_d1, bonus=0):
+    def put_item(self, user_id, name, group, var, var_d1):
         table = self.dynamodb.Table(self.table)
         all_var = {'var_all': var, 'var_d1': var_d1}
         tasks = {'S1': 0}
+        bonus = {
+            'static': 0,
+            'kinematic': 0,
+            'dynamic': 0
+        }
         response = table.put_item(
             Item = {
                     'user_id': user_id,
@@ -73,6 +78,34 @@ class UserVar:
             ReturnValues = "UPDATED_NEW"
         )
         return response
+
+    def get_user(self, user_id):
+        """Метод запроса информации о пользователе по ключу партицирования
+        """
+        table = self.dynamodb.Table(self.table)
+        response = table.get_item(
+            Key = {
+                'user_id': user_id
+            }
+        )
+        return response['Item']
+
+    def add_bonus(self, user_id, category, ball=1):
+        table = self.dynamodb.Table(self.table)
+        user = self.get_user(user_id)
+        score = user['bonus'][category]
+        response = table.update_item(
+            Key = {
+                'user_id': user_id
+            },
+            UpdateExpression = f"set bonus.{category} = :b ",
+            ExpressionAttributeValues = {
+                ':b': score+ball
+            },
+            ReturnValues = "UPDATED_NEW"
+        )
+        return response
+
 
     def all_users(self):
         table = self.dynamodb.Table(self.table)
