@@ -23,7 +23,7 @@ result = round((F1**2 + F2**2 + 2 * F1 * F2 * cos(alpha))**0.5, 2)"""
     # task(elem['text'])
     # print(users.for_mailer())
     # users.add_bonus(122, 'kinematic')
-    print(task.get_task('static'))
+    print(task('static'))
     # print(task(text))
     # print(task())
 

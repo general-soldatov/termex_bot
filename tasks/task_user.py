@@ -8,12 +8,15 @@ class TaskUser:
         self.tasks = task_study()
         self.user = user_var()
 
-    def get_task(self, category):
+    def __call__(self, category):
         user = self.user.get_user(self.user_id)
         number = user['bonus'][category] + 1
-        elem = self.tasks.get_task(number, category)
-        if elem['types'] == 'cod':
-            return 'cod', *self.task_cod(elem['text'])
+        try:
+            elem = self.tasks.get_task(number, category)
+            if elem['types'] == 'cod':
+                return 'cod', *self.task_cod(elem['text'])
+        except:
+            return 'all', 'Нет задач по представленной теме'
 
 
     @staticmethod
