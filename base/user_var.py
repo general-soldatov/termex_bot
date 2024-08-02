@@ -90,17 +90,15 @@ class UserVar:
         )
         return response['Item']
 
-    def add_bonus(self, user_id, category, ball=1):
+    def add_bonus(self, user_id, category, task):
         table = self.dynamodb.Table(self.table)
-        user = self.get_user(user_id)
-        score = user['bonus'][category]
         response = table.update_item(
             Key = {
                 'user_id': user_id
             },
             UpdateExpression = f"set bonus.{category} = :b ",
             ExpressionAttributeValues = {
-                ':b': score+ball
+                ':b': task
             },
             ReturnValues = "UPDATED_NEW"
         )

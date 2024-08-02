@@ -1,4 +1,5 @@
 from base import user_un, user_var, user_study
+from tasks import task_user
 
 
 
@@ -11,6 +12,7 @@ alpha = rad(alpha)
 result = round((F1**2 + F2**2 + 2 * F1 * F2 * cos(alpha))**0.5, 2)"""
     # Операции с базой данных
     users = user_var()
+    task = task_user(122)
     # users.create_table()
     # users.delete_table()
     # users.put_item(user_id=122, name='Gvido', group='f-11', var=11, var_d1=12)
@@ -20,8 +22,8 @@ result = round((F1**2 + F2**2 + 2 * F1 * F2 * cos(alpha))**0.5, 2)"""
     # elem = users.get_task(task_id=1, category='static')
     # task(elem['text'])
     # print(users.for_mailer())
-    users.add_bonus(122, 'kinematic')
-    print(users.get_user(122))
+    # users.add_bonus(122, 'kinematic')
+    print(task.get_task('static'))
     # print(task(text))
     # print(task())
 
