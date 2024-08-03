@@ -16,8 +16,7 @@ class TaskUser:
             if elem['types'] == 'cod':
                 return 'cod', *self.task_cod(elem['text'])
         except:
-            return 'all', 'Нет задач по представленной теме'
-
+            return 'all', 'Нет доступа'
 
     @staticmethod
     def task_cod(txt_task):
