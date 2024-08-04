@@ -1,4 +1,4 @@
-from base import user_un, user_var, user_study
+from base import user_un, user_var, user_study, user_sheet
 from tasks import task_user
 
 
@@ -11,8 +11,7 @@ text = f'Определить модуль равнодействующей дв
 alpha = rad(alpha)
 result = round((F1**2 + F2**2 + 2 * F1 * F2 * cos(alpha))**0.5, 2)"""
     # Операции с базой данных
-    users = user_var()
-    task = task_user(122)
+    users = user_sheet('1222')
     # users.create_table()
     # users.delete_table()
     # users.put_item(user_id=122, name='Gvido', group='f-11', var=11, var_d1=12)
@@ -23,7 +22,7 @@ result = round((F1**2 + F2**2 + 2 * F1 * F2 * cos(alpha))**0.5, 2)"""
     # task(elem['text'])
     # print(users.for_mailer())
     # users.add_bonus(122, 'kinematic')
-    print(task('static'))
+    print(users.search_user('Малюгина Эльвира Викторовна'))
     # print(task(text))
     # print(task())
 
