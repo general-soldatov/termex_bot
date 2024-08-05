@@ -46,13 +46,17 @@ class ListUsers:
                 {
                 "AttributeName": "active",
                 "AttributeType": "N"
+                },
+                {
+                "AttributeName": "google_id",
+                "AttributeType": "N"
                 }
 
             ]
         )
         return table
 
-    def put_item(self, user_id, name, group, date, active=1):
+    def put_item(self, user_id, name, group, date, google_id, active=1):
         table = self.dynamodb.Table(self.table)
         response = table.put_item(
             Item = {
@@ -60,6 +64,7 @@ class ListUsers:
                     'name': name,
                     'group': group,
                     'date': date,
+                    'google_id': google_id,
                     'active': active
             }
         )
@@ -82,7 +87,7 @@ class ListUsers:
     def info_user(self, user_id):
         table = self.dynamodb.Table(self.table)
         response = table.query(
-            ProjectionExpression = 'user_id, name, group, date, active',
+            ProjectionExpression = 'user_id, name, group, date, active, google_id',
             KeyConditionExpression = Key('user_id').eq(user_id)
         )
         return response['Items']
