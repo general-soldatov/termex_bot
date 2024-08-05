@@ -1,5 +1,5 @@
 import math
-from base import task_study, user_var
+from database import task_study, user_var
 from random import randint, choice
 
 class TaskUser:

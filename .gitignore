@@ -1,2 +1,5 @@
 .env
+critical.log
+debug.log
+error.log
 termex-bot-0ea77baf201b.json

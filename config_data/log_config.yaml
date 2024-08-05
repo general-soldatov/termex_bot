@@ -1,0 +1,75 @@
+version: 1
+disable_existing_loggers: True
+
+formatters:
+  default:
+    format: '#%(levelname)-8s %(name)s:%(funcName)s - %(message)s'
+
+  formatter_1:
+    format: '[%(asctime)s] #%(levelname)-8s %(filename)s:%(lineno)d - %(name)s:%(funcName)s - %(message)s'
+
+  formatter_2:
+    format: '#%(levelname)-8s [%(asctime)s] - %(filename)s:%(lineno)d - %(name)s:%(funcName)s - %(message)s'
+
+  formatter_3:
+    format: '#%(levelname)-8s [%(asctime)s] - %(message)s'
+
+filters:
+  critical_filter:
+    (): config.log_filters.CriticalLogFilter
+
+  error_filter:
+    (): config.log_filters.ErrorLogFilters
+
+  debug_warning_filter:
+    (): config.log_filters.DebugWarningLogFilter
+
+handlers:
+  default:
+    class: logging.StreamHandler
+    formatter: default
+
+  stderr:
+    class: logging.StreamHandler
+
+  stdout:
+    class: logging.StreamHandler
+    formatter: formatter_2
+    filters: [debug_warning_filter]
+    stream: ext://sys.stdout
+
+  debug_file:
+    class: logging.FileHandler
+    filename: debug.log
+    mode: a
+    level: DEBUG
+    formatter: formatter_1
+    filters: [debug_warning_filter]
+
+  error_file:
+    class: logging.FileHandler
+    filename: error.log
+    mode: a
+    level: DEBUG
+    formatter: formatter_1
+    filters: [error_filter]
+
+  critical_file:
+    class: logging.FileHandler
+    filename: critical.log
+    mode: a
+    formatter: formatter_3
+    filters: [critical_filter]
+
+loggers:
+  oath_user.profile:
+    level: DEBUG
+    handlers: [debug_file, error_file, critical_file]
+
+  oath_user.reg:
+    level: DEBUG
+    handlers: [stderr, debug_file, error_file, critical_file]
+
+root:
+  formatter: default
+  handlers: [default]
