@@ -16,13 +16,13 @@ formatters:
 
 filters:
   critical_filter:
-    (): config.log_filters.CriticalLogFilter
+    (): app.infrastructure.config_data.log_filters.CriticalLogFilter
 
   error_filter:
-    (): config.log_filters.ErrorLogFilters
+    (): app.infrastructure.config_data.log_filters.ErrorLogFilters
 
   debug_warning_filter:
-    (): config.log_filters.DebugWarningLogFilter
+    (): app.infrastructure.config_data.log_filters.DebugWarningLogFilter
 
 handlers:
   default:

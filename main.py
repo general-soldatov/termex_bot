@@ -1,37 +1,46 @@
+import asyncio
 import logging
-import logging.config
 import yaml
 
+import logging.config
+
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+
+from app.infrastructure import Config, load_config
+# from keyboards.main.menu
+
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from dotenv import load_dotenv
-from os import getenv
-from sys import stdout
+from __app__ import register_handlers
 
-from oath_user.profile import prod
-from oath_user.reg import research
 
-from database import user_un, user_var, user_study, user_sheet
-from tasks import task_user
+# from os import getenv
+# from sys import stdout
 
-load_dotenv()
-bot = Bot(token=getenv('BOT_TOKEN'))
-dp = Dispatcher()
+from app.infrastructure import user_un, user_var, user_study, user_sheet
 
-with open('config/log_config.yaml') as logfile:
-    config = yaml.safe_load(logfile.read())
-
-logging.config.dictConfig(config)
 logger = logging.getLogger(__name__)
-logger.info('Bot is starting')
 
-@dp.message(Command(commands=['start']))
-async def start_bot(message: Message):
-    logger.warning('Log with warning')
-    await message.answer('Hello, i`m bot')
+
+async def main():
+    # Загружаем конфиг в переменную config
+    config: Config = load_config()
+    # Инициализируем бот и диспетчер
+    bot = Bot(
+        token=config.tg_bot.token,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
+    dp = Dispatcher()
+    await register_handlers(dp)
+
+    # Пропускаем накопившиеся апдейты и запускаем polling
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot)
+
 
 
 if __name__ == '__main__':
-    dp.run_polling(bot)
+    asyncio.run(main())
